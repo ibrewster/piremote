@@ -1,7 +1,13 @@
 import shelve
 import requests
 
-from . import SETTINGS_FILE, status_red, status_green
+from . import (SETTINGS_FILE,
+               status_red,
+               status_green,
+               led_a,
+               led_b,
+               led_c,
+               led_d)
 
 def run_url(button):
     with shelve.open(SETTINGS_FILE) as settings:
@@ -27,3 +33,14 @@ def run_url(button):
             status_red.blink(on_time=1/7, off_time=1/7, n=4)        
     
     print("This is the action for button 1")
+    
+def startup_complete():
+    status_green.blink(on_time=.3,off_time=.3,n=3, background = False)
+
+    led_a.off()
+    led_b.off()
+    led_c.off()
+    led_d.off()
+    
+    print("Ran startup complete")
+    

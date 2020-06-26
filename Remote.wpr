@@ -13,3 +13,4 @@ proj.directory-list = [{'dirloc': loc('.'),
 proj.file-list = [loc('main.py'),
                   loc('r315.py')]
 proj.file-type = 'shared'
+proj.main-file = loc('run.py')

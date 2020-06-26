@@ -13,8 +13,6 @@ def index():
             url=''
         template_args[button]=url
         
-    print(template_args)
-
     return flask.render_template("targets.html",**template_args)
 
 
@@ -26,6 +24,5 @@ def setTargets():
         
     with shelve.open(SETTINGS_FILE) as settings:
         settings['targets'] = targets
-    print(targets)
 
     return flask.redirect(flask.url_for("index"))

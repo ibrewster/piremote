@@ -1,18 +1,23 @@
 import shelve
 from .r315 import rx
-from . import SETTINGS_FILE
+from . import (SETTINGS_FILE,
+               led_a,
+               led_b,
+               led_c,
+               led_d)
 
 class Listener:
     _learn_mode = False
     _rx = None
     _associations = {}
+    LEDs = (led_a, led_b, led_c, led_d)
     
     def __init__(self, gpio = 20):
         with shelve.open(SETTINGS_FILE) as remote_file:
             self._known_remotes=remote_file.get('remotes',[])
             try:
                 self._associations = remote_file.get('associations', {})
-            except AttributeError:
+            except (AttributeError, ModuleNotFoundError):
                 self._associations = {}
             
         self._rx = rx(gpio=gpio, callback=self._rx_callback)
@@ -31,6 +36,9 @@ class Listener:
             return #Ignore input from unknown remotes
     
         print(f"Remote ID: {remote_id} Button: {button_num} Bits: {bits} gap: {gap} t0:{t0} t1:{t1}")
+        
+        self.LEDs[button_num].blink(on_time = .5, off_time = 0, n = 1)
+        
         if button_num in self._associations:
             self._associations[button_num](button_num)
     
