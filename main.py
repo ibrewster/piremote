@@ -34,10 +34,8 @@ if __name__ == "__main__":
          print("Entered Learn Mode")
       else:
          print("Left Learn Mode")
-         
-   pi = pigpio.pi() # Connect to local Pi.
 
-   rx=rx(pi, gpio=RX, callback=rx_callback)
+   rx=rx(gpio=RX, callback=rx_callback)
    
    learn_button=Button(12)
    learn_button.when_pressed=set_learn_mode

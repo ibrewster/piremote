@@ -22,7 +22,7 @@ class rx():
    A class to read the wireless codes transmitted by 433 MHz
    wireless fobs.
    """
-   def __init__(self, pi, gpio, callback=None,
+   def __init__(self, gpio, pi = None, callback=None,
                       min_bits=24, max_bits=24, glitch=150):
       """
       Instantiate with the Pi and the GPIO connected to the wireless
@@ -40,6 +40,9 @@ class rx():
       glitch us long from the wireless stream.  This is intended
       to remove the bulk of radio noise.
       """
+      if pi is None:
+         pi = pigpio.pi()
+         
       self.pi = pi
       self.gpio = gpio
       self.cb = callback

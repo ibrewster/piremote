@@ -4,4 +4,12 @@
 # Wing project file                                              #
 ##################################################################
 [project attributes]
+proj.directory-list = [{'dirloc': loc('.'),
+                        'excludes': (),
+                        'filter': u'*',
+                        'include_hidden': False,
+                        'recursive': True,
+                        'watch_for_changes': True}]
+proj.file-list = [loc('main.py'),
+                  loc('r315.py')]
 proj.file-type = 'shared'
