@@ -1,7 +1,7 @@
 """Initalize the application. We do some weird things with import order here to
 allow us to better show progress as we load."""
 import os
-SETTINGS_FILE = 'known_remotes'
+SETTINGS_FILE = os.path.join(os.path.dirname(__file__), 'settings')
 print("Importing GPIOZero")
 from gpiozero import LED,Button
 

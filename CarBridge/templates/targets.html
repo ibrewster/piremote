@@ -1,14 +1,53 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <style>
+        body{
+            background-color:lightgrey;
+            width:100vw;
+            padding-left:15px;
+            padding-right:15px;
+            box-sizing:border-box;
+        }
+        
+        .main{
+            background-color:white;
+            box-sizing:border-box;
+            padding:10px;
+            border: 2px inset;
+            border-radius:8px;
+        }
+        
+        .main input{
+            width:100%;
+            box-sizing:border-box;
+        }
+        
+        .main form{
+            display:grid;
+            grid-template-columns: auto 1fr;
+            grid-column-gap:8px;
+            grid-row-gap:3px;
+            line-height:1.6em;
+        }
+        
+        h2{
+            text-align:center;
+            margin-bottom:5px;
+        }
+        
+    </style>
 </head>
 <body>
-    <form method="POST" action="setTargets">
-        <label for="buttona">Button A: </label><input name="button_1" id="1" value="{{button_1}}"><br>
-        <label for="buttonb">Button B: </label><input name="button_2" id="2" value="{{button_2}}"><br>
-        <label for="buttonc">Button C: </label><input name="button_3" id="3" value="{{button_3}}"><br>
-        <label for="buttond">Button D: </label><input name="button_4" id="4" value="{{button_4}}"><br>
-        <input type="submit" value="Save">
-    </form>
+    <h2>CarLink/HTTP Bridge Setup</h2>
+    <div class="main">
+        <form method="POST" action="setTargets">
+            <label for="buttona">Button A: </label><input name="button_1" id="1" value="{{button_1}}">
+            <label for="buttonb">Button B: </label><input name="button_2" id="2" value="{{button_2}}">
+            <label for="buttonc">Button C: </label><input name="button_3" id="3" value="{{button_3}}">
+            <label for="buttond">Button D: </label><input name="button_4" id="4" value="{{button_4}}">
+            <input type="submit" value="Save">
+        </form>
+    </div>
 </body>
 </html>

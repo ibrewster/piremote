@@ -37,7 +37,7 @@ class Listener:
     
         print(f"Remote ID: {remote_id} Button: {button_num} Bits: {bits} gap: {gap} t0:{t0} t1:{t1}")
         
-        self.LEDs[button_num].blink(on_time = .5, off_time = 0, n = 1)
+        self.LEDs[button_num-1].blink(on_time = .5, off_time = 0, n = 1)
         
         if button_num in self._associations:
             self._associations[button_num](button_num)

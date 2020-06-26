@@ -32,7 +32,7 @@ def run_url(button):
             print(f'Error calling url {url}')
             status_red.blink(on_time=1/7, off_time=1/7, n=4)        
     
-    print("This is the action for button 1")
+    print(f"Completed url call for button {button}")
     
 def startup_complete():
     status_green.blink(on_time=.3,off_time=.3,n=3, background = False)
