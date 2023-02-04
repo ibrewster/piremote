@@ -20,7 +20,7 @@ def run_url(button):
         return
     
     try:
-        result=requests.get(url)
+        result=requests.get(url, verify = False)
     except (requests.exceptions.ConnectionError, requests.exceptions.MissingSchema):
         print(f"Connection error for url {url}")
         status_red.blink(on_time=1/14, off_time=1/4, n=6)
