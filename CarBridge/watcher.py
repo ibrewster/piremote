@@ -58,3 +58,9 @@ class Listener:
         self._associations[button] = func
         with shelve.open(SETTINGS_FILE) as remote_file:
             remote_file['associations'] = self._associations
+            
+    def restart(self):
+        print("Button pressed for restart")
+
+    def shutdown(self):
+        print("Button held for shutdown")
