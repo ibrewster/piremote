@@ -37,6 +37,7 @@ def run_url(button):
     print(f"Completed url call for button {button}")
     
 def startup_complete():
+    print("Running startup final")
     status_green.blink(on_time=.3,off_time=.3,n=3, background = False)
 
     led_a.off()
@@ -44,6 +45,7 @@ def startup_complete():
     led_c.off()
     led_d.off()
     
+    print("Sending MQTT online")
     publish.single("CarLink/availability", "online", hostname="watchman.brewstersoft.net")
     
     print("Ran startup complete")
