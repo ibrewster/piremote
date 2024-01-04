@@ -39,6 +39,7 @@ def run_url(button):
 def startup_complete():
     print("Running startup final")
     status_green.blink(on_time=.3,off_time=.3,n=3, background = False)
+    print("Blink Complete. Turning off LEDS")
 
     led_a.off()
     led_b.off()
