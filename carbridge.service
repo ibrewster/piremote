@@ -3,7 +3,7 @@ Description=HomeBridge/RF to MQTT bridge
 After=network.target auditd.service
 
 [Service]
-ExecStartPre=+/bin/mkdir -p /var/log/rf2mqtt; chmod 777 /var/log/rf2mqtt
+ExecStartPre=+python3 /home/israel/HomeLinkBridge/setupLogDir.py
 ExecStart=/home/israel/HomeLinkBridge/venv/bin/python /home/israel/HomeLinkBridge/RunFastWSGI.py
 Restart=on-failure
 WorkingDirectory=/home/israel/HomeLinkBridge
