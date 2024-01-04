@@ -5,6 +5,8 @@ After=network.target auditd.service
 [Service]
 ExecStart=/home/israel/HomeLinkBridge/venv/bin/python /home/israel/HomeLinkBridge/RunFastWSGI.py
 Restart=on-failure
+User=israel
+Group=israel
 
 [Install]
 WantedBy=multi-user.target
