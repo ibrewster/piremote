@@ -38,7 +38,10 @@ def run_url(button):
     
 def startup_complete():
     print("Running startup final")
-    status_green.blink(on_time=.3,off_time=.3,n=3, background = False)
+    try:
+        status_green.blink(on_time=.3,off_time=.3,n=3, background = False)
+    except Exception as e:
+        print("Unable to blink green light.", e)
     print("Blink Complete. Turning off LEDS")
 
     led_a.off()
