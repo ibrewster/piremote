@@ -53,6 +53,5 @@ if os.getuid() ==0:
     os.setuid(UID)
 
 from . import main
-from threading import Thread
-thread = Thread(target = startup_complete)
-thread.start()
+
+startup_complete()

@@ -42,6 +42,8 @@ def startup_complete():
         status_green.blink(on_time=.3,off_time=.3,n=3, background = False)
     except Exception as e:
         print("Unable to blink green light.", e)
+    finally:
+        print("This should always print.")
     print("Blink Complete. Turning off LEDS")
 
     led_a.off()
