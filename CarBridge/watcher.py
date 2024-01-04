@@ -6,7 +6,8 @@ from . import (SETTINGS_FILE,
                led_a,
                led_b,
                led_c,
-               led_d)
+               led_d,
+               LOGGER)
 
 class Listener:
     _learn_mode = False
@@ -31,13 +32,13 @@ class Listener:
                 self._known_remotes.append(remote_id)
                 with shelve.open(SETTINGS_FILE) as remote_file:
                     remote_file['remotes']=self._known_remotes
-                print(f"Added remote with id {remote_id}")
+                LOGGER.warning(f"Added remote with id {remote_id}")
             return
     
         if remote_id not in self._known_remotes:
             return #Ignore input from unknown remotes
     
-        print(f"Remote ID: {remote_id} Button: {button_num} Bits: {bits} gap: {gap} t0:{t0} t1:{t1}")
+        LOGGER.debug(f"Remote ID: {remote_id} Button: {button_num} Bits: {bits} gap: {gap} t0:{t0} t1:{t1}")
         
         self.LEDs[button_num-1].blink(on_time = .5, off_time = 0, n = 1)
         
@@ -50,9 +51,9 @@ class Listener:
     def set_learn_mode(self):
         self._learn_mode=not self._learn_mode
         if self._learn_mode:
-            print("Entered Learn Mode")
+            LOGGER.warning("Entered Learn Mode")
         else:
-            print("Left Learn Mode")
+            LOGGER.warning("Left Learn Mode")
             
     def set_association(self, button, func):
         self._associations[button] = func
@@ -60,7 +61,7 @@ class Listener:
             remote_file['associations'] = self._associations
             
     def restart(self):
-        print("Button pressed for restart")
+        LOGGER.warning("Button pressed for restart")
 
     def shutdown(self):
-        print("Button held for shutdown")
+        LOGGER.warning("Button held for shutdown")

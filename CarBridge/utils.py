@@ -9,7 +9,8 @@ from . import (SETTINGS_FILE,
                led_a,
                led_b,
                led_c,
-               led_d)
+               led_d,
+               LOGGER)
 
 def run_url(button):
     with shelve.open(SETTINGS_FILE) as settings:
@@ -17,42 +18,42 @@ def run_url(button):
         
     url = targets.get('button_' + str(button))
     if url is None:
-        print(f"No url specified for button {button}")
+        LOGGER.error(f"No url specified for button {button}")
         status_red.blink(on_time=2/7, off_time=2/7, n=2)
         return
     
     try:
         result=requests.get(url, verify = False)
     except (requests.exceptions.ConnectionError, requests.exceptions.MissingSchema):
-        print(f"Connection error for url {url}")
+        LOGGER.error(f"Connection error for url {url}")
         status_red.blink(on_time=1/14, off_time=1/4, n=6)
     else:        
         if result.status_code==200:
-            print(f"Succesfully called url {url}")
+            LOGGER.info(f"Succesfully called url {url}")
             status_green.blink(on_time=1/7, off_time=1/7, n=4)
         else:
-            print(f'Error calling url {url}')
+            LOGGER.error(f'Error calling url {url}')
             status_red.blink(on_time=1/7, off_time=1/7, n=4)        
     
-    print(f"Completed url call for button {button}")
+    LOGGER.info(f"Completed url call for button {button}")
     
 def startup_complete():
-    print("Running startup final")
+    LOGGER.info("Running startup final")
     try:
         status_green.blink(on_time=.3,off_time=.3,n=3, background = False)
     except Exception as e:
-        print("Unable to blink green light.", e)
+        LOGGER.info(f"Unable to blink green light. {e}")
     finally:
-        print("This should always print.")
-    print("Blink Complete. Turning off LEDS")
+        LOGGER.debug("This should always print.")
+    LOGGER.info("Blink Complete. Turning off LEDS")
 
     led_a.off()
     led_b.off()
     led_c.off()
     led_d.off()
     
-    print("Sending MQTT online")
+    LOGGER.info("Sending MQTT online")
     publish.single("CarLink/availability", "online", hostname="watchman.brewstersoft.net")
     
-    print("Ran startup complete")
+    LOGGER.info("Ran startup complete")
     

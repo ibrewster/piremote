@@ -3,6 +3,7 @@ allow us to better show progress as we load."""
 import os
 SETTINGS_FILE = os.path.join(os.path.dirname(__file__), 'settings')
 
+import logging
 from logging.config import dictConfig
 
 dictConfig({
@@ -30,12 +31,14 @@ dictConfig({
     }
 })
 
-print("Importing GPIOZero")
+LOGGER = logging.getLogger()
+
+LOGGER.info("Importing GPIOZero")
 from gpiozero import LED,Button
 
 # Set up some I/O
 # Button status LEDs
-print("Setting up LEDS")
+LOGGER.info("Setting up LEDS")
 led_a=LED(4,initial_value=True)
 led_b=LED(18,initial_value=False)
 led_c=LED(22,initial_value=False)
@@ -43,18 +46,18 @@ led_d=LED(24,initial_value=False)
 status_green=LED(12)
 status_red=LED(13)
 
-print("Importing Listener")
+LOGGER.info("Importing Listener")
 from .watcher import Listener
 led_b.on()
 
-print("Importing Flask")
+LOGGER.info("Importing Flask")
 import flask
 
 learn_button=Button(16)
 reset_button = Button(5, hold_time=3)
 
 led_c.on()
-print("Creating Listener")
+LOGGER.info("Creating Listener")
 rx_listner = Listener()
 learn_button.when_pressed=rx_listner.set_learn_mode
 reset_button.when_pressed = rx_listner.restart
@@ -67,11 +70,12 @@ rx_listner.set_association(2,run_url)
 rx_listner.set_association(3,run_url)
 rx_listner.set_association(4,run_url)
 
-print("Starting Flask")
+LOGGER.info("Starting Flask")
 
 app = flask.Flask(__name__)
 
-print("Running")
+LOGGER.info("Running")
+app.logger.info("Running")
 
 #Drop priviliges
 if os.getuid() ==0:
