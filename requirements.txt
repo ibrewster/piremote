@@ -2,3 +2,6 @@ fastwsgi
 flask
 requests
 paho-mqtt
+gpiozero
+pigpio
+rpi.gpio
