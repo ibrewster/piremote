@@ -1,0 +1,11 @@
+[Unit]
+Description=HomeBridge/RF to MQTT bridge
+After=network.target auditd.service
+
+[Service]
+ExecStart=/home/israel/HomeLinkBridge/venv/bin/python /home/israel/HomeLinkBridge/RunFastWSGI.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
