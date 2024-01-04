@@ -1,5 +1,7 @@
 import shelve
 import requests
+import paho.mqtt.publish as publish
+
 
 from . import (SETTINGS_FILE,
                status_red,
@@ -41,6 +43,8 @@ def startup_complete():
     led_b.off()
     led_c.off()
     led_d.off()
+    
+    publish.single("CarLink/availability", "online", hostname="watchman.brewstersoft.net")
     
     print("Ran startup complete")
     

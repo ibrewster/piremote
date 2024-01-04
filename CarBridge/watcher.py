@@ -1,3 +1,5 @@
+import paho.mqtt.publish as publish
+
 import shelve
 from .r315 import rx
 from . import (SETTINGS_FILE,
@@ -41,6 +43,9 @@ class Listener:
         
         if button_num in self._associations:
             self._associations[button_num](button_num)
+            
+        publish.single("CarLink/remote", f"ON_{button_num}", hostname="watchman.brewstersoft.net")
+        
     
     def set_learn_mode(self):
         self._learn_mode=not self._learn_mode

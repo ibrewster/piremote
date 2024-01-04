@@ -1,0 +1,4 @@
+fastwsgi
+flask
+requests
+paho-mqtt
