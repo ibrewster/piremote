@@ -27,14 +27,14 @@ def run_url(button):
     try:
         result=requests.get(url, verify = False)
     except (requests.exceptions.ConnectionError, requests.exceptions.MissingSchema):
-        LOGGER.error(f"Connection error for url {url}")
+        LOGGER.exception(f"Connection error for url {url}")
         status_red.blink(on_time=1/14, off_time=1/4, n=6)
     else:        
         if result.status_code==200:
             LOGGER.info(f"Succesfully called url {url}")
             status_green.blink(on_time=1/7, off_time=1/7, n=4)
         else:
-            LOGGER.error(f'Error calling url {url}')
+            LOGGER.error(f'Error calling url {url} (status code {result.status_code}), text: {result.text}')
             status_red.blink(on_time=1/7, off_time=1/7, n=4)        
     
     LOGGER.info(f"Completed url call for button {button}")
@@ -63,7 +63,10 @@ def startup_complete():
     led_d.off()
     
     LOGGER.info("Sending MQTT online")
-    publish.single("CarLink/availability", "online", hostname="watchman.brewstersoft.net")
+    try:
+        publish.single("CarLink/availability", "online", hostname="watchman.brewstersoft.net")
+    except:
+        LOGGER.exception("unable to post available message to MQTT")
     
     LOGGER.info("Ran startup complete")
     

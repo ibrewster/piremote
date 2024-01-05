@@ -1,12 +1,18 @@
+import logging
+
 import paho.mqtt.publish as publish
 
-import bjoern
+import fastwsgi
 from CarBridge import app
 
-bjoern.run(
+fastwsgi.run(
     wsgi_app = app,
     host = '0.0.0.0',
-    port = 5000,
-    reuse_port = True)
+    port = 5000
+)
 
-publish.single("CarLink/availability", "offline", hostname="watchman.brewstersoft.net")
+try:
+    publish.single("CarLink/availability", "offline", hostname="watchman.brewstersoft.net")
+except:
+    logger = logging.getLogger()
+    logger.exception("Unable to post offline message")
