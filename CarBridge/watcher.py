@@ -29,6 +29,7 @@ class Listener:
 
     def _rx_callback(self, remote_id, button_num, code, bits, gap, t0, t1):
         """This will be run when a button is pressed on a known remote."""
+        LOGGER.info(f"Received button press from {remote_id}, Button: {button_num}")
         if self._learn_mode:
             if remote_id not in self._known_remotes:
                 self._known_remotes.append(remote_id)
@@ -38,6 +39,7 @@ class Listener:
             return
     
         if remote_id not in self._known_remotes:
+            LOGGER.warning(f"Ignoring message from remote {remote_id} as it is not in our known remotes database")
             return #Ignore input from unknown remotes
     
         LOGGER.debug(f"Remote ID: {remote_id} Button: {button_num} Bits: {bits} gap: {gap} t0:{t0} t1:{t1}")
