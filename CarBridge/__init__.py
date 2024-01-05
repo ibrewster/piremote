@@ -40,6 +40,9 @@ from gpiozero import LED,Button
 # Button status LEDs
 LOGGER.info("Setting up LEDS")
 led_a=LED(4,initial_value=True)
+led_a.blink()
+
+
 led_b=LED(18,initial_value=False)
 led_c=LED(22,initial_value=False)
 led_d=LED(24,initial_value=False)
@@ -48,7 +51,9 @@ status_red=LED(13)
 
 LOGGER.info("Importing Listener")
 from .watcher import Listener
-led_b.on()
+
+led_a.on()
+led_b.blink()
 
 LOGGER.info("Importing Flask")
 import flask
@@ -56,13 +61,17 @@ import flask
 learn_button=Button(16)
 reset_button = Button(5, hold_time=3)
 
-led_c.on()
+led_b.on()
+led_c.blink()
+
 LOGGER.info("Creating Listener")
 rx_listner = Listener()
 learn_button.when_pressed=rx_listner.set_learn_mode
-reset_button.when_pressed = rx_listner.restart
-reset_button.when_held = rx_listner.shutdown
-led_d.on()
+reset_button.when_released = rx_listner.reset_released
+reset_button.when_held = rx_listner.reset_held
+
+led_c.on()
+led_d.blink()
 
 from .utils import run_url, startup_complete
 rx_listner.set_association(1,run_url)
@@ -87,7 +96,5 @@ if os.getuid() ==0:
     os.setuid(UID)
 
 from . import main
-
-import threading
 
 startup_complete()

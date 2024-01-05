@@ -1,4 +1,5 @@
 import paho.mqtt.publish as publish
+import subprocess
 
 import shelve
 from .r315 import rx
@@ -14,6 +15,7 @@ class Listener:
     _rx = None
     _associations = {}
     LEDs = (led_a, led_b, led_c, led_d)
+    _reset_held = False
     
     def __init__(self, gpio = 20):
         with shelve.open(SETTINGS_FILE) as remote_file:
@@ -45,7 +47,10 @@ class Listener:
         if button_num in self._associations:
             self._associations[button_num](button_num)
             
-        publish.single("CarLink/remote", f"ON_{button_num}", hostname="watchman.brewstersoft.net")
+        try:
+            publish.single("CarLink/remote", f"ON_{button_num}", hostname="watchman.brewstersoft.net")
+        except:
+            LOGGER.exception("Unable to post message in response to button press")
         
     
     def set_learn_mode(self):
@@ -60,8 +65,20 @@ class Listener:
         with shelve.open(SETTINGS_FILE) as remote_file:
             remote_file['associations'] = self._associations
             
-    def restart(self):
-        LOGGER.warning("Button pressed for restart")
+    def reset_released(self):
+        # Make sure we jsut pressed the button, not held it down
+        if self._reset_held:
+            self.shutdown()
+            return
+        
+        LOGGER.warning("Restarting due to button press")
+        subprocess.call('sudo reboot', shell=True)
 
     def shutdown(self):
-        LOGGER.warning("Button held for shutdown")
+        LOGGER.warning("Shutting down due to reset hold")
+        subprocess.call('sudo shutdown -h now', shell=True)
+        
+    def reset_held(self):
+        self._reset_held = True
+        
+        

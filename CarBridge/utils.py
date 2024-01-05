@@ -44,29 +44,21 @@ def startup_complete():
     LOGGER.info("Checking for network...")
     while True:
         try:
-            urllib.request.urlopen('https://watchman.brewstersoft.net', timeout=1)
+            publish.single("CarLink/availability", "online", hostname="watchman.brewstersoft.net")
             break
         except:
-            LOGGER.info("Unable to establish connection to watchman. Waiting for network.")
-            
-    try:
-        status_green.blink(on_time=.3,off_time=.3,n=3, background = False)
-    except Exception as e:
-        LOGGER.info(f"Unable to blink green light. {e}")
-    finally:
-        LOGGER.debug("This should always print.")
+            LOGGER.info("unable to post available message to MQTT. Waiting for network")
+                
+    
+    led_d.on()
+    status_green.blink(on_time=.3,off_time=.3,n=3, background = False)
+
     LOGGER.info("Blink Complete. Turning off LEDS")
 
     led_a.off()
     led_b.off()
     led_c.off()
     led_d.off()
-    
-    LOGGER.info("Sending MQTT online")
-    try:
-        publish.single("CarLink/availability", "online", hostname="watchman.brewstersoft.net")
-    except:
-        LOGGER.exception("unable to post available message to MQTT")
     
     LOGGER.info("Ran startup complete")
     
