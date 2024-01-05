@@ -50,8 +50,8 @@ class Listener:
             self._associations[button_num](button_num)
             
         try:
-            publish.single("CarLink/remote", f"ON_{button_num}", hostname="conductor.brewstersoft.net",
-                           auth={'username': 'hamqtt','password': 'Sh@nima821',}, retain=True)
+            publish.single(f"CarLink/remote/{button_num}", "ON", hostname="conductor.brewstersoft.net",
+                           auth={'username': 'hamqtt','password': 'Sh@nima821',})
         except:
             LOGGER.exception("Unable to post message in response to button press")
         
