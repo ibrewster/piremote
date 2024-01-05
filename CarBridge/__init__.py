@@ -88,4 +88,6 @@ if os.getuid() ==0:
 
 from . import main
 
+import threading
+
 startup_complete()

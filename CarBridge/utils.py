@@ -1,4 +1,6 @@
 import shelve
+import urllib
+
 import requests
 import paho.mqtt.publish as publish
 
@@ -39,6 +41,14 @@ def run_url(button):
     
 def startup_complete():
     LOGGER.info("Running startup final")
+    LOGGER.info("Checking for network...")
+    while True:
+        try:
+            urllib.request.urlopen('https://watchman.brewstersoft.net', timeout=1)
+            break
+        except:
+            LOGGER.info("Unable to establish connection to watchman. Waiting for network.")
+            
     try:
         status_green.blink(on_time=.3,off_time=.3,n=3, background = False)
     except Exception as e:
