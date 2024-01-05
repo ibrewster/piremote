@@ -1,5 +1,5 @@
 import shelve
-import urllib
+import socket
 
 import requests
 import paho.mqtt.publish as publish
@@ -40,14 +40,15 @@ def run_url(button):
     LOGGER.info(f"Completed url call for button {button}")
     
 def startup_complete():
-    LOGGER.info("Running startup final")
+    LOGGER.info("Running final startup")
     LOGGER.info("Checking for network...")
     while True:
         try:
-            publish.single("CarLink/availability", "online", hostname="watchman.brewstersoft.net")
+            publish.single("CarLink/availability", "online", hostname="conductor.brewstersoft.net",
+                           auth={'username': 'hamqtt','password': 'Sh@nima821',})
             break
-        except:
-            LOGGER.info("unable to post available message to MQTT. Waiting for network")
+        except (socket.gaierror, socket.timeout):
+            LOGGER.info("unable to post available message to MQTT. Waiting for MQTT/Network")
                 
     
     led_d.on()
@@ -60,5 +61,5 @@ def startup_complete():
     led_c.off()
     led_d.off()
     
-    LOGGER.info("Ran startup complete")
+    LOGGER.info("Startup complete")
     

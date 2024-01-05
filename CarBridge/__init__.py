@@ -83,8 +83,7 @@ LOGGER.info("Starting Flask")
 
 app = flask.Flask(__name__)
 
-LOGGER.info("Running")
-app.logger.info("Running")
+LOGGER.info("Flask app initialized")
 
 #Drop priviliges
 if os.getuid() ==0:
