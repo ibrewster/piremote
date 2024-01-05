@@ -18,7 +18,7 @@ def at_exit():
     logger = logging.getLogger()
     try:
         publish.single("CarLink/availability", "offline", hostname="conductor.brewstersoft.net",
-                       auth={'username': 'hamqtt','password': 'Sh@nima821',})
+                       auth={'username': 'hamqtt','password': 'Sh@nima821',}, retain=True)
     except:
         logger.exception("Unable to post offline message")
         

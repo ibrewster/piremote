@@ -45,7 +45,7 @@ def startup_complete():
     while True:
         try:
             publish.single("CarLink/availability", "online", hostname="conductor.brewstersoft.net",
-                           auth={'username': 'hamqtt','password': 'Sh@nima821',})
+                           auth={'username': 'hamqtt','password': 'Sh@nima821',}, retain=True)
             break
         except (socket.gaierror, socket.timeout):
             LOGGER.info("unable to post available message to MQTT. Waiting for MQTT/Network")
