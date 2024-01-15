@@ -13,7 +13,8 @@ from . import (SETTINGS_FILE,
                led_d,
                status_red,
                status_green, 
-               LOGGER)
+               LOGGER,
+               utils)
 
 class Listener:
     _learn_mode = False
@@ -56,11 +57,12 @@ class Listener:
         if button_num in self._associations:
             self._associations[button_num](button_num)
             
-        try:
-            publish.single(f"CarLink/remote/{button_num}", "ON", hostname="conductor.brewstersoft.net",
-                           auth={'username': 'hamqtt','password': 'Sh@nima821',})
-        except:
-            LOGGER.exception("Unable to post message in response to button press")
+        utils.post_mqtt(button_num)
+        # try:
+            # publish.single(f"CarLink/remote/{button_num}", "ON", hostname="conductor.brewstersoft.net",
+                           # auth={'username': 'hamqtt','password': 'Sh@nima821',})
+        # except:
+            # LOGGER.exception("Unable to post message in response to button press")
         
     
     def set_learn_mode(self):

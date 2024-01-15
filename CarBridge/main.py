@@ -4,10 +4,21 @@ from . import app, SETTINGS_FILE
 
 @app.route('/')
 def index():
-    template_args={}
+    
     with shelve.open(SETTINGS_FILE) as settings:
         targets = settings.get('targets', {})
+        mqtt_broker = settings.get('mqtt_broker', '')
+        mqtt_user = settings.get('mqtt_user', '')
+        mqtt_password = settings.get('mqtt_password', '')
+        mqtt_channel = settings.get('mqtt_channel', '')
         
+    template_args={
+        'mqtt_broker': mqtt_broker,
+        'mqtt_user': mqtt_user,
+        'mqtt_password': mqtt_password,
+        'mqtt_channel': mqtt_channel,
+    }
+    
     for button,url in targets.items():
         if url is None:
             url=''
@@ -26,3 +37,13 @@ def setTargets():
         settings['targets'] = targets
 
     return flask.redirect(flask.url_for("index"))
+
+@app.route('/setMQTT', methods=["POST"])
+def setMQTT():
+    with shelve.open(SETTINGS_FILE) as settings:
+        for setting in flask.request.form:
+            settings[setting] = flask.request.form[setting]
+            
+    return flask.redirect(flask.url_for("index"))
+        
+    

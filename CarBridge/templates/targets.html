@@ -36,10 +36,22 @@
             margin-bottom:5px;
         }
         
+        #placeholder{
+            grid-column: 1/3;
+        }
+        
+        .title{
+            font-weight:bold;
+            margin-top:10px;
+        }
+        
     </style>
 </head>
 <body>
-    <h2>CarLink/HTTP Bridge Setup</h2>
+    <h2>RF WiFi Bridge Setup</h2>
+    <div class="title">
+        HTTP Settings:
+    </div>
     <div class="main">
         <form method="POST" action="setTargets">
             <label for="buttona">Button A: </label><input name="button_1" id="1" value="{{button_1}}">
@@ -49,15 +61,17 @@
             <input type="submit" value="Save">
         </form>
     </div>
+    <div class="title">
+        MQTT Settings:
+    </div>
     <div class="main">
         <form method="POST" action="setMQTT">
-            MQTT Settings:
             <label for="mqtt_broker">Broker*: </label><input name="mqtt_broker" id="broker" value="{{mqtt_broker}}">
+            <div id="placeholder">Use {button} as a placeholder for the button pressed.</div>
+            <label for="mqtt_channel">Channel*: </label><input name="mqtt_channel" id="mqtt_channel" value="{{mqtt_channel}}">
             <label for="mqtt_user">Username: </label><input name="mqtt_user" id="mqtt_user" value="{{mqtt_user}}">
             <label for="mqtt_password">Password: </label><input type=password name="mqtt_password" id="mqtt_password" value="{{mqtt_password}}">
-            Use {button} as a placeholder for the button pressed.
-            <label for="mqtt_channel">Channel*: </label><input name="mqtt_channel" id="mqtt_channel" value="{{mqtt_channel}}">
-            *Required
+            <div>*Required</div><div></div>
             <input type="submit" value="Save">
         </form>
     </div>
