@@ -49,5 +49,17 @@
             <input type="submit" value="Save">
         </form>
     </div>
+    <div class="main">
+        <form method="POST" action="setMQTT">
+            MQTT Settings:
+            <label for="mqtt_broker">Broker*: </label><input name="mqtt_broker" id="broker" value="{{mqtt_broker}}">
+            <label for="mqtt_user">Username: </label><input name="mqtt_user" id="mqtt_user" value="{{mqtt_user}}">
+            <label for="mqtt_password">Password: </label><input type=password name="mqtt_password" id="mqtt_password" value="{{mqtt_password}}">
+            Use {button} as a placeholder for the button pressed.
+            <label for="mqtt_channel">Channel*: </label><input name="mqtt_channel" id="mqtt_channel" value="{{mqtt_channel}}">
+            *Required
+            <input type="submit" value="Save">
+        </form>
+    </div>
 </body>
 </html>

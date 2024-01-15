@@ -1,13 +1,18 @@
-import paho.mqtt.publish as publish
+import shelve
 import subprocess
 
-import shelve
+from time import sleep
+
+import paho.mqtt.publish as publish
+
 from .r315 import rx
 from . import (SETTINGS_FILE,
                led_a,
                led_b,
                led_c,
                led_d,
+               status_red,
+               status_green, 
                LOGGER)
 
 class Listener:
@@ -36,6 +41,8 @@ class Listener:
                 with shelve.open(SETTINGS_FILE) as remote_file:
                     remote_file['remotes']=self._known_remotes
                 LOGGER.warning(f"Added remote with id {remote_id}")
+                status_green.blink(on_time=.3, off_time=.3, n=3, background=False)
+                status_green.blink()
             return
     
         if remote_id not in self._known_remotes:
@@ -60,8 +67,10 @@ class Listener:
         self._learn_mode=not self._learn_mode
         if self._learn_mode:
             LOGGER.warning("Entered Learn Mode")
+            status_green.blink()
         else:
             LOGGER.warning("Left Learn Mode")
+            status_green.off()
             
     def set_association(self, button, func):
         self._associations[button] = func
@@ -75,10 +84,19 @@ class Listener:
             return
         
         LOGGER.warning("Restarting due to button press")
+        status_red.on()
+        sleep(.5)
+        status_red.off()
+        status_green.on()
+        sleep(.5)
         subprocess.call('sudo reboot', shell=True)
 
     def shutdown(self):
         LOGGER.warning("Shutting down due to reset hold")
+        status_green.on()
+        sleep(.5)
+        status_green.off()
+        status_red.blink(on_time=.5, off_time=.5, n=2, background=False)
         subprocess.call('sudo shutdown -h now', shell=True)
         
     def reset_held(self):

@@ -42,12 +42,31 @@ LOGGER.info("Setting up LEDS")
 led_a=LED(4,initial_value=True)
 led_a.blink()
 
-
 led_b=LED(18,initial_value=False)
 led_c=LED(22,initial_value=False)
 led_d=LED(24,initial_value=False)
+
 status_green=LED(12)
 status_red=LED(13)
+
+from .utils import LEDGroup
+button_leds = LEDGroup(led_a, led_b, led_c, led_d)
+
+# Setup the exit function
+import atexit
+import paho.mqtt.publish as publish
+
+@atexit.register
+def at_exit():
+    try:
+        publish.single("CarLink/availability", "offline", hostname="conductor.brewstersoft.net",
+                       auth={'username': 'hamqtt','password': 'Sh@nima821',}, retain=True)
+    except:
+        LOGGER.exception("Unable to post offline message")
+        
+    LOGGER.info("Execution complete. Shutting down")
+    status_red.blink(on_time=.3,off_time=.3,n=3, background = False)
+    
 
 LOGGER.info("Importing Listener")
 from .watcher import Listener

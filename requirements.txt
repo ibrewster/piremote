@@ -4,4 +4,4 @@ requests
 paho-mqtt
 gpiozero
 pigpio
-rpi.gpio
+#rpi.gpio
