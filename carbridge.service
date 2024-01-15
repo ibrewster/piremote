@@ -1,17 +1,18 @@
 [Unit]
 Description=HomeBridge/RF to MQTT bridge
-After=network.target auditd.service
+After=systemd-networkd-wait-online.service
+Wants=systemd-networkd-wait-online.service
 
 [Service]
-ExecStartPre=+python3 /home/israel/HomeLinkBridge/setupLogDir.py
-ExecStart=/home/israel/HomeLinkBridge/venv/bin/python /home/israel/HomeLinkBridge/RunFastWSGI.py
+ExecStartPre=+python3 /home/israel/rf2wifi/setupLogDir.py
+ExecStart=/home/israel/rf2wifi/venv/bin/python /home/israel/rf2wifi/RunFastWSGI.py
 Restart=on-failure
-WorkingDirectory=/home/israel/HomeLinkBridge
+WorkingDirectory=/home/israel/rw2wifi
 User=israel
 Group=israel
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=RF2MQTT
+SyslogIdentifier=RF2WIFI
 
 [Install]
 WantedBy=multi-user.target
