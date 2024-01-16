@@ -7,12 +7,13 @@ Wants=systemd-networkd-wait-online.service
 ExecStartPre=+python3 /home/israel/rf2wifi/setupLogDir.py
 ExecStart=/home/israel/rf2wifi/venv/bin/python /home/israel/rf2wifi/RunFastWSGI.py
 Restart=on-failure
-WorkingDirectory=/home/israel/rw2wifi
+WorkingDirectory=/home/israel/rf2wifi
 User=israel
 Group=israel
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=RF2WIFI
+KillSignal=SIGINT
 
 [Install]
 WantedBy=multi-user.target
