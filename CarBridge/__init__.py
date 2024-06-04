@@ -85,7 +85,9 @@ led_c.blink()
 
 LOGGER.info("Creating Listener")
 rx_listner = Listener()
+
 learn_button.when_pressed=rx_listner.set_learn_mode
+
 reset_button.when_released = rx_listner.reset_released
 reset_button.when_held = rx_listner.reset_held
 

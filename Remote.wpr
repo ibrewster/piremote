@@ -1,11 +1,12 @@
 #!wing
-#!version=9.0
+#!version=10.0
 ##################################################################
 # Wing project file                                              #
 ##################################################################
 [project attributes]
 proj.directory-list = [{'dirloc': loc('.'),
-                        'excludes': ['env'],
+                        'excludes': ['venv',
+                                     'env'],
                         'filter': '*',
                         'include_hidden': False,
                         'recursive': True,
